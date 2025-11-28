@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install wasm-pack
+      run: |
+        curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+        
+    - name: Install dependencies
+      run: |
+        cd backend && cargo fetch
+        cd frontend && npm install
+        
+    - name: Run linter
+      run: |
+        cd backend && cargo clippy --all-targets --all-features -- -D warnings
+        cd frontend && cargo clippy --all-targets --all-features -- -D warnings
+        
+    - name: Run tests
+      run: |
+        cd backend && cargo test
+        cd frontend && wasm-pack test --node
+        
+    - name: Build
+      run: |
+        cd backend && cargo build --release
+        cd frontend && wasm-pack build --target web
+        
+    - name: Deploy
+      if: github.ref == 'refs/heads/main'
+      run: |
+        echo "Deploying to production..."
+        # Add your deployment steps here
