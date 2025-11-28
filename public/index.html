@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daisyui@4.4.0/dist/full.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.0/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #3b82f6;
+            left: 50%;
+            margin-left: -2px;
+        }
+        .timeline-event {
+            position: relative;
+            margin-bottom: 50px;
+            width: 100%;
+        }
+        .timeline-event:nth-child(odd) {
+            padding-right: calc(50% + 20px);
+            text-align: right;
+        }
+        .timeline-event:nth-child(even) {
+            padding-left: calc(50% + 20px);
+        }
+        .event-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            top: 20px;
+            left: 50%;
+            margin-left: -10px;
+            z-index: 1;
+        }
+        .event-content {
+            padding: 20px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div id="app"></div>
+    <script type="module" src="/pkg/timeline_frontend.js"></script>
+</body>
+</html>
